@@ -16,6 +16,8 @@
 	<link rel="stylesheet" href="lib/framework7.ios.css">
 	<link rel="stylesheet" href="lib/framework7.ios.colors.css">
 	<link rel="stylesheet" href="css/hn7.css">
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.5.min.js"></script>
 </head>
 
 <body>
@@ -91,45 +93,12 @@
 						<div class="item-inner">
 							<div class="item-title-row">
 								<div class="item-title">{{title}}</div>
-								<div class="item-after"><span class="badge">{{notEmpty descendants}}</span></div>
-                        	</div>
-							<div class="item-subtitle">{{domain}}</div>
-				        	<div class="item-text">{{score}} points by {{by}} {{time_ago time}}</div>
 						</div>
 					</a>
 				</div>
-				<div class="swipeout-actions-left">
-		        	<a href="{{url}}" target="_blank" class="external"><i class="icon icon-watch"></i></a>
-		      	</div >
 			</li>
 		{{/each}}
 		</ul>
-	</script>
-	<script type="text/template7" id="commentsTemplate">
-		{{#each this}}
-			<div class="message message-received message-with-tail message-last">
-				<div class="message-name"><span class="comment-name">{{by}}</span>, <span class="comment-time">{{time_ago time}}</span></div>
-				<div class="message-text">{{text}}</div>
-			</div>
-			{{#if kids}}
-			<div class="message-kids">
-				<a href="#" data-context="{{kids}}"><i></i> show {{pluralize kids single="reply" multiple="replies"}}</a>
-			</div>
-			{{/if}}
-		{{/each}}
-	</script>
-	<script type="text/template7" id="repliesTemplate">
-		{{#each this}}
-			<div class="message message-received message-with-tail message-last">
-				<div class="message-name"><span class="comment-name">{{by}}</span>, <span class="comment-time">{{time_ago time}}</span></div>
-				<div class="message-text">{{text}}</div>
-			</div>
-			{{#if kids}}
-				<div class="message-kids">
-					<a href="#" data-context="{{kids}}"><i></i> show {{pluralize kids single="reply" multiple="replies"}}</a>
-				</div>
-			{{/if}}
-		{{/each}}
 	</script>
     <script type="text/template7" id="userTemplate">
         <div class="content-block user">
