@@ -28,12 +28,14 @@
 				templates: 'src/**/*.html',
 				scripts: 'src/**/*.js',
 				styles: 'src/**/*.css',
-				images: 'src/img/**/*'
+				images: 'src/img/**/*',
+				csv:'src/*.csv',
+				json:'src/*.json'
 			},
 			dist: {
-				root: 'www',
-				libraries: 'www/lib',
-				images: 'www/img'
+				root: 'html',
+				libraries: 'html/lib',
+				images: 'html/img'
 			}
 		};
 	
@@ -61,14 +63,24 @@
 		return gulp.src(paths.source.styles)
 			.pipe(gulp.dest(paths.dist.root));
 	});
+
+	gulp.task('csv', function () {
+		return gulp.src(paths.source.csv)
+			.pipe(gulp.dest(paths.dist.root));
+	});
 	
+	gulp.task('json', function () {
+		return gulp.src(paths.source.json)
+			.pipe(gulp.dest(paths.dist.root));
+	});
+
 	gulp.task('images', function () {
 		gulp.src(paths.source.root + '/apple-touch-icon.png').pipe(gulp.dest(paths.dist.root));
 		return gulp.src(paths.source.images)
 			.pipe(gulp.dest(paths.dist.images));
 	});
 	
-	gulp.task('dist', [ 'libraries', 'templates', 'scripts', 'styles', 'images' ]);
+	gulp.task('dist', [ 'libraries', 'templates', 'scripts', 'styles', 'images' , 'csv' , 'json' ]);
 	
 	gulp.task('watch', function () {
 		gulp.watch(paths.libraries.scripts.concat(paths.libraries.styles), [ 'libraries' ]);
