@@ -147,6 +147,8 @@ var auxParams = {
         return sensors;
     }
 
+    $$(".panel.panel-right").html(T7.templates.userTemplate({}));
+
     // Update stories on PTR
     $$('.pull-to-refresh-content').on('refresh', function () {
         $$('.refresh-link.refresh-home').addClass('refreshing');

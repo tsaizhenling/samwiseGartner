@@ -45,12 +45,16 @@
 			<div class="view view-left navbar-through">
 				<div class="navbar theme-white">
 					<div class="navbar-inner">
-						<div class="left"><a href="#" class="link icon-only refresh-link refresh-home"><i class="icon icon-refresh"></i></a>
+						<div class="left">
 						</div>
 						<div class="center sliding">
 							<span class="mobile-title">Samwise Gartner</span>
 							<span class="tablet-title">Samwise Gartner</span>
 						</div>
+						<div class="right sliding">
+      			<!-- User link for small screen -->
+      			<a href="#" data-panel="right" class="open-panel link icon-only"> <img src="img/avatar.svg" width="28px" /></a>
+    				</div>
 					</div>
 				</div>
 				<div class="pages">
@@ -83,7 +87,6 @@
 			<div class="pages">
 				<div class="page" data-page="main">
 					<div class="choose-story">
-						<a href="#" class="open-panel">Choose Story</a>
 					</div>
 				</div>
 			</div>
@@ -108,10 +111,14 @@
 		</ul>
 	</script>
     <script type="text/template7" id="userTemplate">
-        <div class="content-block user">
+      <div class="content-block user">
 		  <img class="user-avatar" src="img/avatar.svg" width="128px"/>
-          <h1 class="user-name">User name here</h1>
-        </div>
+          <h1 class="user-name">Do Stuff here</h1>
+          <div>
+          		<button class="myButton">Dispense water</button><br/><br/>
+          		<button class="myButton">Dispense fertilizer</button>
+          </div>
+      </div>
 	</script>
 
 	<!-- libraries -->
