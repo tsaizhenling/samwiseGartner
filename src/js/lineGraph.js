@@ -3,6 +3,16 @@ var parseDate = d3.time.format("%d-%b-%y").parse;
 
 var drawLineGraph = function(lineData, chartId, screenWidth) {
     var data = JSON.parse(JSON.stringify(lineData));
+    data.sort(function (a, b) {
+      if (a.timestamp > b.timestamp) {
+        return 1;
+      }
+      if (a.timestamp < b.timestamp) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    })
     // Set the dimensions of the canvas / graph
     var margin = {top: 30, right: 20, bottom: 30, left: 50},
         width = screenWidth - margin.left - margin.right,
@@ -33,8 +43,10 @@ var drawLineGraph = function(lineData, chartId, screenWidth) {
               "translate(" + margin.left + "," + margin.top + ")");
 
     data.forEach(function(d) {
-        d.date = parseDate(d.date);
-        d.close = +d.close;
+        console.log(d);
+        d.date = new Date(d.timestamp);
+        d.close = +d.value;
+        console.log(d);
     });
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));

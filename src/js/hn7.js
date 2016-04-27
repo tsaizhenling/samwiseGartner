@@ -37,7 +37,7 @@ var auxParams = {
         endColor : "steelblue"
     },
     moisture : {
-        data : data1,
+        data : testData,
         startColor : "steelblue",
         endColor : "navy"
     },
