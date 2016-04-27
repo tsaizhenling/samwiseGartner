@@ -93,50 +93,23 @@ var auxParams = {
 
     function checkSplitView() {
         var activeStoryLink;
-        if ($$(window).width() < 767) {
-            delete leftView.params.linksView;
-            if (splitView) {
-                // Need to check main view history and load same page into left view
-                activeStoryLink = $$('.stories-list a.item-link.active-story');
-                if (mainView.history.length > 1 && activeStoryLink.length > 0) {
-                    leftView.router.load({
-                        animatePages: false,
-                        url: activeStoryLink.attr('href'),
-                        contextName: activeStoryLink.attr('data-contextName')
-                    });
-                }
+        delete leftView.params.linksView;
+        if (splitView) {
+            // Need to check main view history and load same page into left view
+            activeStoryLink = $$('.stories-list a.item-link.active-story');
+            if (mainView.history.length > 1 && activeStoryLink.length > 0) {
+                leftView.router.load({
+                    animatePages: false,
+                    url: activeStoryLink.attr('href'),
+                    contextName: activeStoryLink.attr('data-contextName')
+                });
             }
-            splitView = false;
-        } else {
-            if (!splitView) {
-                // Need to check left view history and go back
-                if (leftView.history.length === 2) {
-                    leftView.router.back({
-                        animatePages: false
-                    });
-                    activeStoryLink = $$('.stories-list a.item-link.active-story');
-                    // Need to load same page in main view on the right
-                    mainView.router.load({
-                        url: activeStoryLink.attr('href'),
-                        contextName: activeStoryLink.attr('data-contextName')
-                    });
-                }
-            }
-            splitView = true;
-            leftView.params.linksView = '.view-main';
         }
+        splitView = false;
     }
     $$(window).resize(checkSplitView);
     checkSplitView();
 
-    // Add active class for left view links and close panel
-    $$(document).on('click', '.view-left .stories-list a.item-link', function (e) {
-        $$('.stories-list a.item-link.active-story').removeClass('active-story');
-        $$(this).addClass('active-story');
-        if (splitView) {
-            app.closePanel();
-        }
-    }, true);
     // Fetch Stories
     function getPlantData(refresh) {
         //app.showPreloader('Loading plant data..');
