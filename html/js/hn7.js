@@ -163,7 +163,7 @@ var auxParams = {
     });
 
     $$('#dispense-water').on('click',function () {
-        console.log('dispense water!!');
+        $$.get('https://p9cx91bqc5.execute-api.ap-northeast-1.amazonaws.com/live');
     });
 
     $$('#threshold-add').on('click',function () {
