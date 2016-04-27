@@ -32,7 +32,7 @@ var auxParams = {
         data : pm25
     },
     humidity : {
-        data : moistureData,
+        data : testData,
         startColor : "#ffffff",
         endColor : "steelblue"
     },
@@ -144,7 +144,7 @@ var auxParams = {
         } else if (page.query.type == "heatmap") {
             drawHeatMap(data,"chart",auxParams[page.query.id].colorCalibration,width);
         } else if (page.query.type == "heatmap2") {
-            drawHeatMap2(data,"chart",auxParams[page.query.id].startColor,auxParams[page.query.id].endColor,width);
+            drawHeatMap2(data,"chart",auxParams[page.query.id].startColor,auxParams[page.query.id].endColor,width,page.query.id);
         }
     });
     app.onPageAfterAnimation('item', function (page) {
