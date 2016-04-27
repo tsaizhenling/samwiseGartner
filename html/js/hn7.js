@@ -110,6 +110,30 @@ var auxParams = {
     $$(window).resize(checkSplitView);
     checkSplitView();
 
+    var endpoint = "https://sght3h0n5j.execute-api.ap-northeast-1.amazonaws.com/live";
+
+    var currentValues = {
+        humidity:"Loading...",
+        temperature:"Loading...",
+        light:"Loading...",
+        moisture:"Loading...",
+        ultraviolet:"Loading..."
+    };
+
+    function getLatestValues() {
+        sensors.forEach(function(sensor){
+            $$.get(endpoint,
+            {
+                sensor:sensor.id,
+                timestamp:0
+            },function(stuff) {
+                var data = JSON.parse(stuff).Items[0];
+                currentValues[sensor.id] = data.value
+                $$('#page-header').html(T7.templates.currentValuesTemplate(currentValues))
+            });
+        })
+    }
+
     // Fetch Stories
     function getPlantData(refresh) {
         //app.showPreloader('Loading plant data..');
@@ -117,6 +141,8 @@ var auxParams = {
         $$('.refresh-link.refresh-home').removeClass('refreshing');
         app.template7Data.stories = sensors;
         $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(sensors));
+        $$('#page-header').html(T7.templates.currentValuesTemplate(currentValues))
+        getLatestValues();
         return sensors;
     }
 
@@ -136,15 +162,36 @@ var auxParams = {
         getPlantData(true);
     });
 
+    $$('#dispense-water').on('click',function () {
+        console.log('dispense water!!');
+    });
+
+    $$('#threshold-add').on('click',function () {
+        var threshold = parseInt($$('#threshold-value').html())
+        if (threshold < 100) {
+            threshold = threshold + 1;
+        }
+        $$('#threshold-value').html(threshold);
+    });
+
+    $$('#threshold-minus').on('click',function () {
+        var threshold = parseInt($$('#threshold-value').html())
+        if (threshold > 0) {
+            threshold = threshold - 1;
+        }
+        $$('#threshold-value').html(threshold);
+    });
+
     app.onPageInit('item', function (page) {
         var width = $$(window).width();
         app.showPreloader('Loading data..');
-        $$.get("https://sght3h0n5j.execute-api.ap-northeast-1.amazonaws.com/live",
+        $$.get(endpoint,
             {
                 sensor:page.query.id,
                 timestamp:1461686400000
             },function(stuff) {
                 app.hidePreloader()
+                console.log(stuff)
                 var data = JSON.parse(stuff).Items;
                 if (page.query.id == 'temperature') {
                     data.forEach(function(d){
@@ -153,6 +200,12 @@ var auxParams = {
                         }
                         if (d.value > 45) {
                             d.value = d.value - 25;
+                        }
+                    });
+                } else if (page.query.id == 'moisture') {
+                    data.forEach(function(d){
+                        if (d.timestamp < 1461724113100) {
+                            d.value = 50;
                         }
                     });
                 }
