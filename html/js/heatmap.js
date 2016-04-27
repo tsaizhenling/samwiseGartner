@@ -4,7 +4,7 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
   var itemSize = 18,
     cellSize = itemSize-1,
     width = screenWidth,
-    height = 800,
+    height = 1200,
     margin = {top:20,right:20,bottom:20,left:25};
 
   //formats
@@ -73,8 +73,8 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
     .attr('class','y axis')
     .call(yAxis)
   .append('text')
-    .text('time')
-    .attr('transform','translate(-10,'+axisHeight+') rotate(-90)');
+    .text('minutes')
+    .attr('transform','translate(-10,'+(70)+') rotate(-90)');
   //render heatmap rects
   dayOffset = dayFormat(dateExtent[0]);
   rect = heatmap.selectAll('rect')

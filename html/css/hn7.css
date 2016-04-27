@@ -119,10 +119,10 @@ a {
 }
 .story-comments {
 	position: relative;
-	height: -moz-calc(100% - 130px);
-	height: -ms-calc(100% - 130px);
-	height: -webkit-calc(100% - 130px);
-	height: calc(100% - 130px);
+	height: -moz-calc(100%);
+	height: -ms-calc(100%);
+	height: -webkit-calc(100%);
+	height: calc(100%);
 	overflow: auto;
 	box-sizing: border-box;
 	-webkit-overflow-scrolling: touch;

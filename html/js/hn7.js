@@ -138,12 +138,24 @@ var auxParams = {
 
     app.onPageInit('item', function (page) {
         var width = $$(window).width();
+        app.showPreloader('Loading data..');
         $$.get("https://sght3h0n5j.execute-api.ap-northeast-1.amazonaws.com/live",
             {
                 sensor:page.query.id,
                 timestamp:1461686400000
             },function(stuff) {
+                app.hidePreloader()
                 var data = JSON.parse(stuff).Items;
+                if (page.query.id == 'temperature') {
+                    data.forEach(function(d){
+                        if (d.value < 1) {
+                            d.value = d.value * 1000;
+                        }
+                        if (d.value > 45) {
+                            d.value = d.value - 25;
+                        }
+                    });
+                }
                 if (page.query.type == "line") {
                     drawLineGraph(data,"chart",width);
                 } else if (page.query.type == "heatmap") {

@@ -14,7 +14,7 @@ var x = d3.scale.linear().range([0, width]),
 // The size of the buckets in the CSV data file.
 // This could be inferred from the data if it weren't sparse.
 var xStep = 1;//864e5,
-    yStep = 10;
+    yStep = 1;
 
 var svg = d3.select("#"+chartId).append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -90,8 +90,8 @@ var svg = d3.select("#"+chartId).append("svg")
     .append("text")
       .attr("class", "label")
       .attr("y", 6)
-      .attr("dy", ".71em")
+      .attr("dy", "-1em")
       .attr("text-anchor", "end")
-      .attr("transform", "rotate(-90)")
+      //.attr("transform", "rotate(-90)")
       .text("Minutes");
 };
