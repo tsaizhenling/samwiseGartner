@@ -1,6 +1,6 @@
-/*global Framework7, Dom7, Template7, moment, hnapi */
+/*global Framework7, Dom7, Template7, moment */
 
-(function (Framework7, $$, T7, moment, hnapi) {
+(function (Framework7, $$, T7, moment) {
     'use strict';
 
 var sensors = [
@@ -29,7 +29,7 @@ var sensors = [
 var auxParams = {
     temperature : {
         colorCalibration : ['#f6faaa','#FEE08B','#FDAE61','#F46D43','#D53E4F','#9E0142'],
-        data : pm25
+        data : testData
     },
     humidity : {
         data : testData,
@@ -43,11 +43,11 @@ var auxParams = {
     },
     light : {
         colorCalibration : ['#272901','#4f5202','#7e8203','#c5cc06','#eef527','#f1f57a'],
-        data : pm25
+        data : testData
     },
     ultraviolet : {
         colorCalibration : ['#f6defa','#f2c5fa','#f09eff','#e466fa','#b922d4','#bd00a6'],
-        data : pm25
+        data : testData
     }
 };
 
@@ -138,14 +138,20 @@ var auxParams = {
 
     app.onPageInit('item', function (page) {
         var width = $$(window).width();
-        var data = auxParams[page.query.id].data
-        if (page.query.type == "line") {
-            drawLineGraph(data,"chart",width);
-        } else if (page.query.type == "heatmap") {
-            drawHeatMap(data,"chart",auxParams[page.query.id].colorCalibration,width);
-        } else if (page.query.type == "heatmap2") {
-            drawHeatMap2(data,"chart",auxParams[page.query.id].startColor,auxParams[page.query.id].endColor,width,page.query.id);
-        }
+        $$.get("https://sght3h0n5j.execute-api.ap-northeast-1.amazonaws.com/live",
+            {
+                sensor:page.query.id,
+                timestamp:1461686400000
+            },function(stuff) {
+                var data = JSON.parse(stuff).Items;
+                if (page.query.type == "line") {
+                    drawLineGraph(data,"chart",width);
+                } else if (page.query.type == "heatmap") {
+                    drawHeatMap(data,"chart",auxParams[page.query.id].colorCalibration,width);
+                } else if (page.query.type == "heatmap2") {
+                    drawHeatMap2(data,"chart",auxParams[page.query.id].startColor,auxParams[page.query.id].endColor,width,page.query.id);
+                }
+            });
     });
     app.onPageAfterAnimation('item', function (page) {
     });
@@ -162,4 +168,4 @@ var auxParams = {
     // Export app to global
     window.app = app;
 
-}(Framework7, Dom7, Template7, moment, hnapi));
+}(Framework7, Dom7, Template7, moment));

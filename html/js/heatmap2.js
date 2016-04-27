@@ -25,7 +25,6 @@ var svg = d3.select("#"+chartId).append("svg")
     d.date = new Date(d.timestamp);
     d.bucket = d.date.getMinutes();
     d.count = d.value;
-    console.log(d);
   });
 
   // Compute the scale domains.

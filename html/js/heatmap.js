@@ -20,7 +20,7 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
 
   //axises and scales
   var axisWidth = 0 ,
-    axisHeight = itemSize*24,
+    axisHeight = itemSize*60,
     xAxisScale = d3.time.scale(),
     xAxis = d3.svg.axis()
       .orient('top')
@@ -28,10 +28,10 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
       .tickFormat(monthDayFormat),
     yAxisScale = d3.scale.linear()
       .range([0,axisHeight])
-      .domain([0,24]),
+      .domain([0,60]),
     yAxis = d3.svg.axis()
       .orient('left')
-      .ticks(5)
+      .ticks(12)
       .tickFormat(d3.format('02d'))
       .scale(yAxisScale);
 
@@ -48,7 +48,7 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
   var rect = null;
 
   data.forEach(function(valueObj){
-    valueObj.date = timeFormat.parse(valueObj.timestamp);
+    valueObj.date = new Date(valueObj.timestamp);
     var day = valueObj.day = monthDayFormat(valueObj.date);
     var dayData = dailyValueExtent[day] = (dailyValueExtent[day] || [1000,-1]);
     var pmValue = valueObj.value;
@@ -58,15 +58,15 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
   dateExtent = d3.extent(data,function(d){
     return d.date;
   });
-  axisWidth = itemSize*(dayFormat(dateExtent[1])-dayFormat(dateExtent[0])+1);
+  axisWidth = itemSize*25;
   //render axises
-  xAxis.scale(xAxisScale.range([0,axisWidth]).domain([dateExtent[0],dateExtent[1]]));  
+  xAxis = d3.scale.linear().range([0,axisWidth]).domain([0,23]);
   svg.append('g')
     .attr('transform','translate('+margin.left+','+margin.top+')')
     .attr('class','x axis')
-    .call(xAxis)
+    .call(d3.svg.axis().scale(xAxis).orient("top"))
   .append('text')
-    .text('date')
+    .text('hour')
     .attr('transform','translate('+axisWidth+',-10)');
   svg.append('g')
     .attr('transform','translate('+margin.left+','+margin.top+')')
@@ -83,10 +83,10 @@ var drawHeatMap = function(heatmapData,chartId,colorCalibration,screenWidth){
     .attr('width',cellSize)
     .attr('height',cellSize)
     .attr('x',function(d){
-      return itemSize*(dayFormat(d.date)-dayOffset);
+      return itemSize*d.date.getHours();
     })
     .attr('y',function(d){            
-      return hourFormat(d.date)*itemSize;
+      return d.date.getMinutes()*itemSize;
     })
     .attr('fill','#ffffff');
   rect.filter(function(d){ return d.value>0;})
